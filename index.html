@@ -1,67 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Halaman Admin</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      height: 100vh;
-      justify-content: center;
-      align-items: center;
-    }
-    .container {
-      background: white;
-      padding: 2rem 3rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      text-align: center;
-      width: 320px;
-    }
-    h1 {
-      margin-bottom: 1.5rem;
-      color: #333;
-    }
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 12px 0;
-      margin: 12px 0;
-      font-size: 16px;
-      color: white;
-      background-color: #007bff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background-color 0.3s ease;
-    }
-    .btn:hover {
-      background-color: #0056b3;
-    }
-    footer {
-      margin-top: 2rem;
-      font-size: 12px;
-      color: #aaa;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Internet Cepat - Ho oh Tenen</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>Halaman Admin</h1>
-   <a href="https://id2.boswifi.my.id:10105" target="_blank" class="btn" rel="noopener noreferrer">OLT VSOL 1</a>
-    <a href="https://id2.boswifi.my.id:10599" target="_blank" class="btn" rel="noopener noreferrer">OLT VSOL 2</a>
-    
-     <a href="http://id2.boswifi.my.id:10189" target="_blank" class="btn" rel="noopener noreferrer">OLT HSGQ 1</a>
-    <footer>© 2025 Ho-oh Tenan</footer>
-  </div>
+  <header>
+    <h1>Ho-oH Tenan</h1>
+    <nav>
+      <a href="#home">Beranda</a>
+      <a href="#paket">Paket Internet</a>
+      <a href="#daftar">Daftar</a>
+      <a href="#tentang">Tentang</a>
+      <a href="#kontak">Kontak</a>
+    </nav>
+  </header>
+
+  <section id="home" class="hero">
+    <h2>Internet Cepat untuk Semua</h2>
+    <p>Koneksi stabil, harga terjangkau, dan layanan 24 jam.</p>
+    <a href="#daftar" class="btn">Daftar Sekarang</a>
+  </section>
+
+  <section id="paket">
+    <h2>Paket Internet</h2>
+    <div class="paket-container">
+      <div class="paket-card">
+        <h3>Basic</h3>
+        <p>Kecepatan: 10 Mbps</p>
+        <p>Harga: Rp150.000/bulan</p>
+      </div>
+      <div class="paket-card">
+        <h3>Standard</h3>
+        <p>Kecepatan: 30 Mbps</p>
+        <p>Harga: Rp250.000/bulan</p>
+      </div>
+      <div class="paket-card">
+        <h3>Premium</h3>
+        <p>Kecepatan: 50 Mbps</p>
+        <p>Harga: Rp400.000/bulan</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="daftar">
+    <h2>Formulir Pendaftaran</h2>
+    <form>
+      <input type="text" placeholder="Nama Lengkap" required />
+      <input type="text" placeholder="Alamat Lengkap" required />
+      <input type="tel" placeholder="Nomor Telepon" required />
+      <select required>
+        <option value="">Pilih Paket</option>
+        <option>Basic</option>
+        <option>Standard</option>
+        <option>Premium</option>
+      </select>
+      <button type="submit">Kirim</button>
+    </form>
+  </section>
+
+  <section id="tentang">
+    <h2>Tentang Kami</h2>
+    <p>ISP Nusantara telah melayani ribuan pelanggan sejak 2020. Fokus kami adalah menyediakan internet cepat dan stabil hingga pelosok daerah.</p>
+  </section>
+
+  <section id="kontak">
+    <h2>Hubungi Kami</h2>
+    <p>📞 0812-3456-7890</p>
+    <p>📧 cs@ispnusantara.co.id</p>
+    <p>📍 Jl. Raya Internet No. 88, Jakarta</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 ISP Nusantara. All rights reserved.</p>
+  </footer>
 </body>
 </html>
-
-
-
