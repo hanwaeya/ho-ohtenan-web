@@ -63,7 +63,7 @@
 
     <div class="container">
         <h1>Pendaftaran Pelanggan Internet</h1>
-        <form action="submit_pendaftaran.php" method="POST">
+        <form id="pendaftaranForm">
             <!-- Nama -->
             <label for="nama">Nama Lengkap:</label>
             <input type="text" id="nama" name="nama" required placeholder="Masukkan nama lengkap Anda">
@@ -97,6 +97,25 @@
     <div class="footer">
         <p>&copy; 2025 Penyedia Layanan Internet</p>
     </div>
+
+    <script>
+        // Tangani submit form dengan JavaScript
+        document.getElementById("pendaftaranForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Mencegah form mengarah ke halaman kosong
+
+            // Ambil data dari form
+            const nama = document.getElementById("nama").value;
+            const email = document.getElementById("email").value;
+            const telepon = document.getElementById("telepon").value;
+            const alamat = document.getElementById("alamat").value;
+            const paket = document.getElementById("paket").value;
+
+            // Tampilkan pesan sukses (misalnya)
+            alert(`Pendaftaran Berhasil!\nNama: ${nama}\nPaket: ${paket}\nEmail: ${email}`);
+
+            // Kamu bisa menambahkan kode untuk menyimpan data atau kirim ke server (misalnya menggunakan API)
+        });
+    </script>
 
 </body>
 </html>
