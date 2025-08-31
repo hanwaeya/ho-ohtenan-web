@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Internet Cepat - Ho oh Tenen</title>
+  <meta name="description" content="Penyedia layanan internet cepat dan stabil di Indonesia. Tersedia paket Basic, Standard, dan Premium. Daftar sekarang!" />
+  <title>Internet Cepat - Ho oh Tenan</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header>
     <h1>Ho-oH Tenan</h1>
-    <nav>
+    <nav aria-label="Navigasi utama">
       <a href="#home">Beranda</a>
       <a href="#paket">Paket Internet</a>
       <a href="#daftar">Daftar</a>
@@ -18,60 +19,70 @@
     </nav>
   </header>
 
-  <section id="home" class="hero">
-    <h2>Internet Cepat untuk Semua</h2>
-    <p>Koneksi stabil, harga terjangkau, dan layanan 24 jam.</p>
-    <a href="#daftar" class="btn">Daftar Sekarang</a>
-  </section>
+  <main>
+    <section id="home" class="hero">
+      <h2>Internet Cepat untuk Semua</h2>
+      <p>Koneksi stabil, harga terjangkau, dan layanan 24 jam.</p>
+      <a href="#daftar" class="btn">Daftar Sekarang</a>
+    </section>
 
-  <section id="paket">
-    <h2>Paket Internet</h2>
-    <div class="paket-container">
-      <div class="paket-card">
-        <h3>Basic</h3>
-        <p>Kecepatan: 10 Mbps</p>
-        <p>Harga: Rp150.000/bulan</p>
+    <section id="paket">
+      <h2>Paket Internet</h2>
+      <div class="paket-container">
+        <div class="paket-card">
+          <h3>Basic</h3>
+          <p>Kecepatan: 10 Mbps</p>
+          <p>Harga: Rp150.000/bulan</p>
+        </div>
+        <div class="paket-card">
+          <h3>Standard</h3>
+          <p>Kecepatan: 30 Mbps</p>
+          <p>Harga: Rp250.000/bulan</p>
+        </div>
+        <div class="paket-card">
+          <h3>Premium</h3>
+          <p>Kecepatan: 50 Mbps</p>
+          <p>Harga: Rp400.000/bulan</p>
+        </div>
       </div>
-      <div class="paket-card">
-        <h3>Standard</h3>
-        <p>Kecepatan: 30 Mbps</p>
-        <p>Harga: Rp250.000/bulan</p>
-      </div>
-      <div class="paket-card">
-        <h3>Premium</h3>
-        <p>Kecepatan: 50 Mbps</p>
-        <p>Harga: Rp400.000/bulan</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="daftar">
-    <h2>Formulir Pendaftaran</h2>
-    <form>
-      <input type="text" placeholder="Nama Lengkap" required />
-      <input type="text" placeholder="Alamat Lengkap" required />
-      <input type="tel" placeholder="Nomor Telepon" required />
-      <select required>
-        <option value="">Pilih Paket</option>
-        <option>Basic</option>
-        <option>Standard</option>
-        <option>Premium</option>
-      </select>
-      <button type="submit">Kirim</button>
-    </form>
-  </section>
+    <section id="daftar">
+      <h2>Formulir Pendaftaran</h2>
+      <form onsubmit="event.preventDefault(); alert('Formulir berhasil dikirim!');">
+        <label for="nama">Nama Lengkap</label>
+        <input id="nama" type="text" placeholder="Nama Lengkap" required />
 
-  <section id="tentang">
-    <h2>Tentang Kami</h2>
-    <p>ISP Nusantara telah melayani ribuan pelanggan sejak 2020. Fokus kami adalah menyediakan internet cepat dan stabil hingga pelosok daerah.</p>
-  </section>
+        <label for="alamat">Alamat Lengkap</label>
+        <input id="alamat" type="text" placeholder="Alamat Lengkap" required />
 
-  <section id="kontak">
-    <h2>Hubungi Kami</h2>
-    <p>📞 0812-3456-7890</p>
-    <p>📧 cs@ispnusantara.co.id</p>
-    <p>📍 Jl. Raya Internet No. 88, Jakarta</p>
-  </section>
+        <label for="telepon">Nomor Telepon</label>
+        <input id="telepon" type="tel" placeholder="Nomor Telepon" required />
+
+        <label for="paket">Pilih Paket</label>
+        <select id="paket" required>
+          <option value="">Pilih Paket</option>
+          <option>Basic</option>
+          <option>Standard</option>
+          <option>Premium</option>
+        </select>
+
+        <button type="submit">Kirim</button>
+      </form>
+    </section>
+
+    <section id="tentang">
+      <h2>Tentang Kami</h2>
+      <p>ISP Nusantara telah melayani ribuan pelanggan sejak 2020. Fokus kami adalah menyediakan internet cepat dan stabil hingga pelosok daerah.</p>
+    </section>
+
+    <section id="kontak">
+      <h2>Hubungi Kami</h2>
+      <p>📞 0812-3456-7890</p>
+      <p>📧 cs@ispnusantara.co.id</p>
+      <p>📍 Jl. Raya Internet No. 88, Jakarta</p>
+    </section>
+  </main>
 
   <footer>
     <p>&copy; 2025 ISP Nusantara. All rights reserved.</p>
