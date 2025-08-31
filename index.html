@@ -2,126 +2,69 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Penyedia layanan internet cepat dan stabil di Indonesia. Tersedia paket Basic, Standard, dan Premium. Daftar sekarang!" />
-  <title>Internet Cepat - Ho oh Tenan</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Form Pendaftaran Internet</title>
 </head>
 <body>
-  <header>
-    <h1>Ho-oH Tenan</h1>
-    <nav aria-label="Navigasi utama">
-      <a href="#home">Beranda</a>
-      <a href="#paket">Paket Internet</a>
-      <a href="#daftar">Daftar</a>
-      <a href="#tentang">Tentang</a>
-      <a href="#kontak">Kontak</a>
-    </nav>
-  </header>
+  <h1>Formulir Pendaftaran</h1>
+  <form id="formPendaftaran">
+    <label for="nama">Nama Lengkap:</label><br />
+    <input id="nama" name="nama" type="text" required /><br /><br />
 
-  <main>
-    <section id="home" class="hero">
-      <h2>Internet Cepat untuk Semua</h2>
-      <p>Koneksi stabil, harga terjangkau, dan layanan 24 jam.</p>
-      <a href="#daftar" class="btn">Daftar Sekarang</a>
-    </section>
+    <label for="alamat">Alamat Lengkap:</label><br />
+    <input id="alamat" name="alamat" type="text" required /><br /><br />
 
-    <section id="paket">
-      <h2>Paket Internet</h2>
-      <div class="paket-container">
-        <div class="paket-card">
-          <h3>Basic</h3>
-          <p>Kecepatan: 10 Mbps</p>
-          <p>Harga: Rp150.000/bulan</p>
-        </div>
-        <div class="paket-card">
-          <h3>Standard</h3>
-          <p>Kecepatan: 30 Mbps</p>
-          <p>Harga: Rp250.000/bulan</p>
-        </div>
-        <div class="paket-card">
-          <h3>Premium</h3>
-          <p>Kecepatan: 50 Mbps</p>
-          <p>Harga: Rp400.000/bulan</p>
-        </div>
-      </div>
-    </section>
+    <label for="telepon">Nomor Telepon:</label><br />
+    <input id="telepon" name="telepon" type="tel" required /><br /><br />
 
-    <section id="daftar">
-      <h2>Formulir Pendaftaran</h2>
-      <form id="formPendaftaran">
-        <label for="nama">Nama Lengkap</label>
-        <input id="nama" type="text" placeholder="Nama Lengkap" required />
+    <label for="paket">Pilih Paket:</label><br />
+    <select id="paket" name="paket" required>
+      <option value="">Pilih Paket</option>
+      <option value="Basic">Basic</option>
+      <option value="Standard">Standard</option>
+      <option value="Premium">Premium</option>
+    </select><br /><br />
 
-        <label for="alamat">Alamat Lengkap</label>
-        <input id="alamat" type="text" placeholder="Alamat Lengkap" required />
+    <button type="submit">Kirim</button>
+  </form>
 
-        <label for="telepon">Nomor Telepon</label>
-        <input id="telepon" type="tel" placeholder="Nomor Telepon" required />
+  <p id="pesanStatus" style="color: green;"></p>
 
-        <label for="paket">Pilih Paket</label>
-        <select id="paket" required>
-          <option value="">Pilih Paket</option>
-          <option>Basic</option>
-          <option>Standard</option>
-          <option>Premium</option>
-        </select>
-
-        <button type="submit">Kirim</button>
-      </form>
-
-      <p id="pesanStatus" style="margin-top: 10px;"></p>
-    </section>
-
-    <section id="tentang">
-      <h2>Tentang Kami</h2>
-      <p>ISP Nusantara telah melayani ribuan pelanggan sejak 2020. Fokus kami adalah menyediakan internet cepat dan stabil hingga pelosok daerah.</p>
-    </section>
-
-    <section id="kontak">
-      <h2>Hubungi Kami</h2>
-      <p>📞 0812-3456-7890</p>
-      <p>📧 <a href="mailto:cs@ispnusantara.co.id">cs@ispnusantara.co.id</a></p>
-      <p>📍 Jl. Raya Internet No. 88, Jakarta</p>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 ISP Nusantara. All rights reserved.</p>
-  </footer>
-
-  <!-- SCRIPT UNTUK KIRIM KE GOOGLE SHEETS -->
   <script>
-    document.getElementById('formPendaftaran').addEventListener('submit', function (e) {
+    const form = document.getElementById('formPendaftaran');
+    const pesanStatus = document.getElementById('pesanStatus');
+
+    form.addEventListener('submit', e => {
       e.preventDefault();
 
       const data = {
-        nama: document.getElementById('nama').value,
-        alamat: document.getElementById('alamat').value,
-        telepon: document.getElementById('telepon').value,
-        paket: document.getElementById('paket').value
+        nama: form.nama.value,
+        alamat: form.alamat.value,
+        telepon: form.telepon.value,
+        paket: form.paket.value
       };
 
-      fetch('https://script.google.com/macros/s/AKfycbyx-A8QHgttst-Yjkvsklsodzcxi2LVHDGYw3GKR9yYjhlwm8I4IzXe00nWakgneFq5/exec', {
+      fetch('WEB_APP_URL', {
         method: 'POST',
         body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(response => response.json())
+      .then(res => {
+        if (res.result === 'success') {
+          pesanStatus.textContent = 'Formulir berhasil dikirim!';
+          pesanStatus.style.color = 'green';
+          form.reset();
+        } else {
+          pesanStatus.textContent = 'Terjadi kesalahan: ' + (res.message || '');
+          pesanStatus.style.color = 'red';
         }
       })
-        .then(res => res.json())
-        .then(res => {
-          if (res.result === "success") {
-            document.getElementById('pesanStatus').innerText = "Formulir berhasil dikirim!";
-            document.getElementById('formPendaftaran').reset();
-          } else {
-            document.getElementById('pesanStatus').innerText = "Terjadi kesalahan. Coba lagi.";
-          }
-        })
-        .catch(err => {
-          document.getElementById('pesanStatus').innerText = "Gagal mengirim data.";
-          console.error(err);
-        });
+      .catch(error => {
+        pesanStatus.textContent = 'Gagal mengirim data.';
+        pesanStatus.style.color = 'red';
+        console.error(error);
+      });
     });
   </script>
 </body>
