@@ -48,28 +48,65 @@
     </section>
 
     <section id="daftar">
-      <h2>Formulir Pendaftaran</h2>
-      <form onsubmit="event.preventDefault(); alert('Formulir berhasil dikirim!');">
-        <label for="nama">Nama Lengkap</label>
-        <input id="nama" type="text" placeholder="Nama Lengkap" required />
+  <h2>Formulir Pendaftaran</h2>
+  <form id="formPendaftaran">
+    <label for="nama">Nama Lengkap</label>
+    <input id="nama" type="text" placeholder="Nama Lengkap" required />
 
-        <label for="alamat">Alamat Lengkap</label>
-        <input id="alamat" type="text" placeholder="Alamat Lengkap" required />
+    <label for="alamat">Alamat Lengkap</label>
+    <input id="alamat" type="text" placeholder="Alamat Lengkap" required />
 
-        <label for="telepon">Nomor Telepon</label>
-        <input id="telepon" type="tel" placeholder="Nomor Telepon" required />
+    <label for="telepon">Nomor Telepon</label>
+    <input id="telepon" type="tel" placeholder="Nomor Telepon" required />
 
-        <label for="paket">Pilih Paket</label>
-        <select id="paket" required>
-          <option value="">Pilih Paket</option>
-          <option>Basic</option>
-          <option>Standard</option>
-          <option>Premium</option>
-        </select>
+    <label for="paket">Pilih Paket</label>
+    <select id="paket" required>
+      <option value="">Pilih Paket</option>
+      <option>Basic</option>
+      <option>Standard</option>
+      <option>Premium</option>
+    </select>
 
-        <button type="submit">Kirim</button>
-      </form>
-    </section>
+    <button type="submit">Kirim</button>
+  </form>
+
+  <p id="pesanStatus" style="margin-top: 10px;"></p>
+</section>
+
+<script>
+  document.getElementById('formPendaftaran').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const data = {
+      nama: document.getElementById('nama').value,
+      alamat: document.getElementById('alamat').value,
+      telepon: document.getElementById('telepon').value,
+      paket: document.getElementById('paket').value
+    };
+
+    fetch('https://script.google.com/macros/s/AKfycbyx-A8QHgttst-Yjkvsklsodzcxi2LVHDGYw3GKR9yYjhlwm8I4IzXe00nWakgneFq5/exec', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.result === "success") {
+          document.getElementById('pesanStatus').innerText = "Formulir berhasil dikirim!";
+          document.getElementById('formPendaftaran').reset();
+        } else {
+          document.getElementById('pesanStatus').innerText = "Terjadi kesalahan. Coba lagi.";
+        }
+      })
+      .catch(err => {
+        document.getElementById('pesanStatus').innerText = "Gagal mengirim data.";
+        console.error(err);
+      });
+  });
+</script>
+
 
     <section id="tentang">
       <h2>Tentang Kami</h2>
@@ -89,3 +126,4 @@
   </footer>
 </body>
 </html>
+
