@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    line-height: 1.6;
+    background: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+header {
+    background: #0057b7;
+    color: white;
+    padding: 20px 0;
+    overflow: hidden;
+}
+
+header h1 {
+    float: left;
+    font-size: 24px;
+}
+
+nav {
+    float: right;
+}
+
+nav a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 60px 0;
+    background: white;
+}
+
+.hero-text {
+    flex: 1;
+    padding: 20px;
+}
+
+.hero-img {
+    flex: 1;
+    text-align: center;
+}
+
+.hero-img img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.btn {
+    display: inline-block;
+    background: #0057b7;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background: #0041a3;
+}
+
+.paket, .lokasi, .kontak {
+    padding: 60px 0;
+    background: #f1f1f1;
+    text-align: center;
+}
+
+.paket-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 30px;
+}
+
+.paket-item {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 280px;
+    margin: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.daftar {
+    padding: 60px 0;
+    background: white;
+}
+
+.form-daftar {
+    max-width: 600px;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-daftar label {
+    font-weight: 600;
+    text-align: left;
+}
+
+.form-daftar input,
+.form-daftar textarea,
+.form-daftar select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.form-daftar textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-daftar button {
+    background: #0057b7;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.form-daftar button:hover {
+    background: #0041a3;
+}
+
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
