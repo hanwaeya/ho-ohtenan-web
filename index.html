@@ -1,22 +1,110 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gambar Promo</title>
-    <style>
-        /* Agar gambar responsive */
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto; /* Jika ingin gambar di tengah */
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ISP Keren - Internet Cepat dan Stabil</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header>
+        <div class="container">
+            <h1>ISP Keren</h1>
+            <nav>
+                <a href="#paket">Paket</a>
+                <a href="#lokasi">Lokasi</a>
+                <a href="#kontak">Kontak</a>
+                <a href="#daftar">Daftar</a>
+            </nav>
+        </div>
+    </header>
 
-    <img src="Gambar/promo.webp" alt="Gambar Promo">
+    <section class="hero">
+        <div class="container">
+            <div class="hero-text">
+                <h2>Internet Super Cepat & Stabil</h2>
+                <p>Rasakan pengalaman internet tanpa gangguan. Cocok untuk gaming, streaming, dan work from home!</p>
+                <a href="#paket" class="btn">Lihat Paket</a>
+            </div>
+            <div class="hero-img">
+                <img src="Gambar/promo.webp" alt="Lokasi Jangkauan ISP">
+            </div>
+        </div>
+    </section>
 
+    <section class="paket" id="paket">
+        <div class="container">
+            <h2>Paket Internet</h2>
+            <div class="paket-list">
+                <div class="paket-item">
+                    <h3>Basic</h3>
+                    <p>Up to 20 Mbps</p>
+                    <p>Rp 150.000 / bulan</p>
+                </div>
+                <div class="paket-item">
+                    <h3>Family</h3>
+                    <p>Up to 50 Mbps</p>
+                    <p>Rp 250.000 / bulan</p>
+                </div>
+                <div class="paket-item">
+                    <h3>Gamer</h3>
+                    <p>Up to 100 Mbps</p>
+                    <p>Rp 400.000 / bulan</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="lokasi" id="lokasi">
+        <div class="container">
+            <h2>Jangkauan Lokasi</h2>
+            <p>Kami melayani area: Kota A, Kota B, dan sekitarnya. Hubungi kami untuk cek ketersediaan di daerahmu.</p>
+        </div>
+    </section>
+
+    <section class="kontak" id="kontak">
+        <div class="container">
+            <h2>Kontak Kami</h2>
+            <p>📞 0812-3456-7890</p>
+            <p>📧 support@ispkeren.co.id</p>
+        </div>
+    </section>
+
+    <section class="daftar" id="daftar">
+        <div class="container">
+            <h2>Daftar Sekarang</h2>
+            <p>Isi formulir di bawah untuk mendaftar sebagai pelanggan ISP Keren.</p>
+            <form class="form-daftar" action="#" method="post">
+                <label for="nama">Nama Lengkap</label>
+                <input type="text" id="nama" name="nama" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="hp">Nomor HP</label>
+                <input type="tel" id="hp" name="hp" required>
+
+                <label for="alamat">Alamat Lengkap</label>
+                <textarea id="alamat" name="alamat" required></textarea>
+
+                <label for="paket">Pilih Paket</label>
+                <select id="paket" name="paket" required>
+                    <option value="">-- Pilih Paket --</option>
+                    <option value="basic">Basic - 20 Mbps</option>
+                    <option value="family">Family - 50 Mbps</option>
+                    <option value="gamer">Gamer - 100 Mbps</option>
+                </select>
+
+                <button type="submit" class="btn">Kirim Pendaftaran</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ISP Keren. Semua Hak Dilindungi.</p>
+        </div>
+    </footer>
 </body>
 </html>
