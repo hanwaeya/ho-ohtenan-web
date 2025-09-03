@@ -1,72 +1,22 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Form Pendaftaran Internet</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gambar Promo</title>
+    <style>
+        /* Agar gambar responsive */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto; /* Jika ingin gambar di tengah */
+        }
+    </style>
 </head>
 <body>
-  <h1>Formulir Pendaftaran</h1>
-  <form id="formPendaftaran">
-    <label for="nama">Nama Lengkap:</label><br />
-    <input id="nama" name="nama" type="text" required /><br /><br />
 
-    <label for="alamat">Alamat Lengkap:</label><br />
-    <input id="alamat" name="alamat" type="text" required /><br /><br />
+    <img src="Gambar/promo.webp" alt="Gambar Promo">
 
-    <label for="telepon">Nomor Telepon:</label><br />
-    <input id="telepon" name="telepon" type="tel" required /><br /><br />
-
-    <label for="paket">Pilih Paket:</label><br />
-    <select id="paket" name="paket" required>
-      <option value="">Pilih Paket</option>
-      <option value="Basic">Basic</option>
-      <option value="Standard">Standard</option>
-      <option value="Premium">Premium</option>
-    </select><br /><br />
-
-    <button type="submit">Kirim</button>
-  </form>
-
-  <p id="pesanStatus" style="color: green;"></p>
-
-  <script>
-    const form = document.getElementById('formPendaftaran');
-    const pesanStatus = document.getElementById('pesanStatus');
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-
-      const data = {
-        nama: form.nama.value,
-        alamat: form.alamat.value,
-        telepon: form.telepon.value,
-        paket: form.paket.value
-      };
-
-      fetch('https://script.google.com/macros/s/AKfycbxYLPI8ys9cgMfFZmts7-9Dc6hRryyMl7Oshzx3EJfTgQfEo4BB5X3CoYuGQ_Xqc7QC/exec', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json' }
-      })
-      .then(response => response.json())
-      .then(res => {
-        if (res.result === 'success') {
-          pesanStatus.textContent = 'Formulir berhasil dikirim!';
-          pesanStatus.style.color = 'green';
-          form.reset();
-        } else {
-          pesanStatus.textContent = 'Terjadi kesalahan: ' + (res.message || '');
-          pesanStatus.style.color = 'red';
-        }
-      })
-      .catch(error => {
-        pesanStatus.textContent = 'Gagal mengirim data.';
-        pesanStatus.style.color = 'red';
-        console.error(error);
-      });
-    });
-  </script>
 </body>
 </html>
-
