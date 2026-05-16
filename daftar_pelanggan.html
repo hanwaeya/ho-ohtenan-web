@@ -4,10 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ISP PRO GIS NEXT LEVEL</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<title>GIS ISP PRO SURVEY MODE</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -16,102 +13,91 @@
 
 body{
     margin:0;
-    font-family:Inter;
-    background:#0f172a;
-    color:white;
-}
-
-.container{
+    font-family:Arial;
     display:grid;
-    grid-template-columns: 1fr 1.2fr;
+    grid-template-columns: 1fr 1fr;
     height:100vh;
 }
-
-/* SIDEBAR */
-
-.sidebar{
-    background:#111827;
-    padding:15px;
-    overflow:auto;
-}
-
-.card{
-    background:#1f2937;
-    padding:15px;
-    border-radius:12px;
-    margin-bottom:12px;
-}
-
-input,select{
-    width:100%;
-    padding:10px;
-    margin-top:5px;
-    border-radius:10px;
-    border:none;
-    outline:none;
-}
-
-button{
-    width:100%;
-    padding:10px;
-    margin-top:8px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:700;
-}
-
-.btn-blue{background:#2563eb;color:white;}
-.btn-green{background:#16a34a;color:white;}
-.btn-red{background:#dc2626;color:white;}
-.btn-yellow{background:#eab308;color:black;}
-
-table{
-    width:100%;
-    font-size:12px;
-    border-collapse:collapse;
-}
-
-td{
-    padding:6px;
-    border-bottom:1px solid #374151;
-}
-
-/* MAP */
 
 #map{
     height:100vh;
     width:100%;
 }
 
-/* BADGE */
+.panel{
+    padding:15px;
+    overflow:auto;
+    background:#0f172a;
+    color:white;
+}
+
+input,select{
+    width:100%;
+    padding:10px;
+    margin:5px 0;
+    border-radius:8px;
+    border:none;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn1{background:#2563eb;color:white;}
+.btn2{background:#16a34a;color:white;}
+.btn3{background:#eab308;color:black;}
+.btn4{background:#dc2626;color:white;}
+
+table{
+    width:100%;
+    font-size:12px;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+td,th{
+    padding:6px;
+    border-bottom:1px solid #374151;
+}
 
 .badge{
     padding:4px 8px;
     border-radius:999px;
     font-size:10px;
-    font-weight:700;
 }
 
 .green{background:#16a34a;}
 .yellow{background:#eab308;color:black;}
 .red{background:#dc2626;}
 
+#infoBox{
+    position:fixed;
+    bottom:15px;
+    left:15px;
+    background:#111827;
+    color:white;
+    padding:10px;
+    border-radius:10px;
+    font-size:12px;
+    z-index:9999;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div id="map"></div>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
+<div class="panel">
 
-<h2>📡 ISP PRO GIS</h2>
-
-<div class="card">
-
-<h3>➕ Tambah Pelanggan</h3>
+<h2>📡 ISP SURVEY PRO</h2>
 
 <input id="nama" placeholder="Nama">
 <input id="hp" placeholder="HP">
@@ -126,113 +112,130 @@ td{
 <input id="lat" placeholder="Latitude">
 <input id="lng" placeholder="Longitude">
 
-<button class="btn-blue" onclick="gps()">📍 Ambil GPS</button>
-<button class="btn-green" onclick="add()">➕ Simpan</button>
-
-</div>
-
-<div class="card">
-
-<h3>📊 Statistik</h3>
-
-<p id="stat"></p>
-
-</div>
-
-<div class="card">
+<button class="btn1" onclick="gps()">📍 GPS</button>
+<button class="btn2" onclick="saveData()">➕ Simpan</button>
+<button class="btn3" onclick="backup()">💾 Backup</button>
+<button class="btn4" onclick="resetAll()">🗑 Reset</button>
 
 <h3>🔎 Search</h3>
-<input id="search" onkeyup="render()">
+<input id="search" onkeyup="renderList()">
 
-</div>
-
-<div class="card">
-
-<h3>📋 List</h3>
+<h3>📋 Data</h3>
 <table>
 <tbody id="list"></tbody>
 </table>
 
 </div>
 
-<div class="card">
-
-<button class="btn-yellow" onclick="backup()">💾 Backup</button>
-<button class="btn-red" onclick="resetAll()">🗑 Reset</button>
-
-</div>
-
-</div>
-
-<!-- MAP -->
-<div id="map"></div>
-
-</div>
+<div id="infoBox">📍 Siap Survey</div>
 
 <script>
 
-/* DB */
+/* DATABASE */
 let data =
-JSON.parse(localStorage.getItem("isp_pro")) || [];
+JSON.parse(localStorage.getItem("isp_survey")) || [];
 
 /* MAP */
-let map = L.map('map').setView([-6.2,106.8],10);
+let map = L.map('map').setView([-6.2,106.8], 10);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
     attribution:'© OSM'
 }).addTo(map);
 
-/* ICON */
+let marker = null;
 
-function icon(status){
+/* INFO */
+function info(msg){
+    document.getElementById("infoBox").innerText = "📍 " + msg;
+}
 
-    let c = "#16a34a";
+/* INIT MAP CLICK */
+map.on("click", e=>{
+    setPoint(e.latlng.lat,e.latlng.lng,"manual");
+});
 
-    if(status==="GANGGUAN") c="#eab308";
-    if(status==="ISOLIR") c="#dc2626";
+/* SET POINT */
+function setPoint(lat,lng,type){
 
-    return L.divIcon({
-        className:"",
-        html:`<div style="
-            width:12px;
-            height:12px;
-            border-radius:50%;
-            background:${c};
-            border:2px solid white;
-        "></div>`
+    document.getElementById("lat").value = lat.toFixed(6);
+    document.getElementById("lng").value = lng.toFixed(6);
+
+    if(marker){
+        map.removeLayer(marker);
+    }
+
+    marker = L.marker([lat,lng],{
+        draggable:true
+    }).addTo(map);
+
+    marker.on("dragend", ()=>{
+        let p = marker.getLatLng();
+        document.getElementById("lat").value = p.lat.toFixed(6);
+        document.getElementById("lng").value = p.lng.toFixed(6);
+        info("drag marker ✔");
+    });
+
+    map.setView([lat,lng],18);
+
+    info(type === "gps" ? "GPS lokasi" : "manual map ✔");
+}
+
+/* GPS */
+function gps(){
+
+    navigator.geolocation.getCurrentPosition(pos=>{
+
+        setPoint(pos.coords.latitude,pos.coords.longitude,"gps");
+
+    },()=>{
+
+        alert("GPS tidak akurat, gunakan klik map");
+
+    },{
+        enableHighAccuracy:true,
+        timeout:10000
     });
 
 }
 
-/* RENDER MAP */
+/* SAVE */
+function saveData(){
 
-function renderMap(){
-
-    map.eachLayer(layer=>{
-        if(layer instanceof L.Marker) map.removeLayer(layer);
+    data.push({
+        nama:document.getElementById("nama").value,
+        hp:document.getElementById("hp").value,
+        alamat:document.getElementById("alamat").value,
+        status:document.getElementById("status").value,
+        lat:document.getElementById("lat").value,
+        lng:document.getElementById("lng").value
     });
+
+    localStorage.setItem("isp_survey",JSON.stringify(data));
+
+    renderMap();
+    renderList();
+
+    info("data tersimpan ✔");
+
+}
+
+/* RENDER MAP */
+function renderMap(){
 
     data.forEach(p=>{
 
         if(p.lat && p.lng){
 
-            L.marker([p.lat,p.lng],{
-                icon:icon(p.status)
-            })
-
+            L.marker([p.lat,p.lng])
             .addTo(map)
-
             .bindPopup(`
-
                 <b>${p.nama}</b><br>
                 ${p.alamat}<br>
-                <b>${p.status}</b><br><br>
-
+                ${p.status}<br><br>
                 <a target="_blank"
                 href="https://www.google.com/maps?q=${p.lat},${p.lng}">
                 🚗 Navigasi
                 </a>
-
             `);
 
         }
@@ -241,54 +244,16 @@ function renderMap(){
 
 }
 
-/* GPS */
+/* LIST */
+function renderList(){
 
-function gps(){
-
-    navigator.geolocation.getCurrentPosition(pos=>{
-
-        document.getElementById("lat").value = pos.coords.latitude;
-        document.getElementById("lng").value = pos.coords.longitude;
-
-        map.setView([pos.coords.latitude,pos.coords.longitude],16);
-
-    });
-
-}
-
-/* ADD */
-
-function add(){
-
-    data.push({
-
-        nama:document.getElementById("nama").value,
-        hp:document.getElementById("hp").value,
-        alamat:document.getElementById("alamat").value,
-        status:document.getElementById("status").value,
-        lat:document.getElementById("lat").value,
-        lng:document.getElementById("lng").value
-
-    });
-
-    save();
-    render();
-    renderMap();
-    stat();
-
-}
-
-/* RENDER LIST */
-
-function render(){
-
-    let q = document.getElementById("search").value || "";
+    let q = document.getElementById("search").value.toLowerCase();
 
     let html = "";
 
     data.forEach((p,i)=>{
 
-        if(p.nama.toLowerCase().includes(q.toLowerCase())){
+        if(p.nama.toLowerCase().includes(q)){
 
             html += `
             <tr>
@@ -297,9 +262,7 @@ function render(){
                     <span class="badge ${
                         p.status==="AKTIF"?"green":
                         p.status==="GANGGUAN"?"yellow":"red"
-                    }">
-                        ${p.status}
-                    </span>
+                    }">${p.status}</span>
                 </td>
             </tr>
             `;
@@ -312,31 +275,7 @@ function render(){
 
 }
 
-/* STAT */
-
-function stat(){
-
-    let a = data.filter(x=>x.status==="AKTIF").length;
-    let g = data.filter(x=>x.status==="GANGGUAN").length;
-    let i = data.filter(x=>x.status==="ISOLIR").length;
-
-    document.getElementById("stat").innerHTML = `
-    Total: ${data.length}<br>
-    Aktif: ${a}<br>
-    Gangguan: ${g}<br>
-    Isolir: ${i}
-    `;
-
-}
-
-/* SAVE */
-
-function save(){
-    localStorage.setItem("isp_pro",JSON.stringify(data));
-}
-
 /* BACKUP */
-
 function backup(){
 
     let blob = new Blob(
@@ -347,32 +286,29 @@ function backup(){
     let a = document.createElement("a");
 
     a.href = URL.createObjectURL(blob);
-    a.download = "isp-pro-backup.json";
+    a.download = "isp-survey-backup.json";
     a.click();
 
 }
 
 /* RESET */
-
 function resetAll(){
 
     if(confirm("Hapus semua data?")){
 
         data = [];
-        save();
-        render();
+        localStorage.removeItem("isp_survey");
+
         renderMap();
-        stat();
+        renderList();
 
     }
 
 }
 
 /* INIT */
-
-render();
 renderMap();
-stat();
+renderList();
 
 </script>
 
