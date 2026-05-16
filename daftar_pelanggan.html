@@ -1,315 +1,402 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>GIS ISP PRO SURVEY MODE</title>
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-<style>
-
-body{
-    margin:0;
-    font-family:Arial;
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    height:100vh;
-}
-
-#map{
-    height:100vh;
-    width:100%;
-}
-
-.panel{
-    padding:15px;
-    overflow:auto;
-    background:#0f172a;
-    color:white;
-}
-
-input,select{
-    width:100%;
-    padding:10px;
-    margin:5px 0;
-    border-radius:8px;
-    border:none;
-}
-
-button{
-    width:100%;
-    padding:10px;
-    margin-top:5px;
-    border:none;
-    border-radius:8px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.btn1{background:#2563eb;color:white;}
-.btn2{background:#16a34a;color:white;}
-.btn3{background:#eab308;color:black;}
-.btn4{background:#dc2626;color:white;}
-
-table{
-    width:100%;
-    font-size:12px;
-    border-collapse:collapse;
-    margin-top:10px;
-}
-
-td,th{
-    padding:6px;
-    border-bottom:1px solid #374151;
-}
-
-.badge{
-    padding:4px 8px;
-    border-radius:999px;
-    font-size:10px;
-}
-
-.green{background:#16a34a;}
-.yellow{background:#eab308;color:black;}
-.red{background:#dc2626;}
-
-#infoBox{
-    position:fixed;
-    bottom:15px;
-    left:15px;
-    background:#111827;
-    color:white;
-    padding:10px;
-    border-radius:10px;
-    font-size:12px;
-    z-index:9999;
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Data Pelanggan ISP Pro</title>
+    <!-- Memuat CSS Peta Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h2, h3 { color: #2c3e50; margin-top: 0; }
+        .form-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        input, select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        /* Desain Khusus Area Peta */
+        #map-container {
+            margin-bottom: 15px;
+        }
+        #map {
+            width: 100%;
+            height: 300px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        .map-help {
+            font-size: 12px;
+            color: #718096;
+            margin-top: 4px;
+        }
+        .file-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .file-label {
+            display: block;
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 8px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            border: 1px dashed #cbd5e0;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-add { background-color: #2ecc71; color: white; }
+        .btn-action { padding: 6px 10px; font-size: 12px; background-color: #34495e; color: white; border-radius: 4px; }
+        .btn-danger { background-color: #e74c3c; color: white; padding: 6px 10px; font-size: 12px; }
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; white-space: nowrap; }
+        th { background-color: #2c3e50; color: white; }
+        tr:hover { background-color: #f5f5f5; }
+        .badge { padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; color: white; display: inline-block; }
+        .badge-aktif { background-color: #2ecc71; }
+        .badge-progres { background-color: #f39c12; }
+        .badge-jadwal { background-color: #3498db; }
+        .btn-link { text-decoration: none; color: #3498db; font-weight: bold; }
+        .img-preview { max-width: 60px; max-height: 40px; border-radius: 4px; cursor: pointer; }
+    </style>
 </head>
-
 <body>
 
-<div id="map"></div>
+<div class="container">
+    <h2>Manajemen Pelanggan ISP</h2>
+    
+    <!-- FORMULIR TAMBAH PELANGGAN -->
+    <div class="form-section">
+        <h3>Tambah Pelanggan Baru</h3>
+        <form id="customerForm" onsubmit="addCustomer(event)">
+            <div class="form-grid">
+                <input type="text" id="custNo" placeholder="No. Pelanggan (Contoh: ISP-001)" required>
+                <input type="text" id="custName" placeholder="Nama Pelanggan" required>
+                <input type="tel" id="custPhone" placeholder="No. HP / WhatsApp (Contoh: 0812345)" required>
+                <input type="text" id="custAddress" placeholder="Alamat Rumah" required>
+                
+                <!-- Input Koordinat Terisi Otomatis Lewat Klik / Geser Peta -->
+                <input type="text" id="custMaps" placeholder="Koordinat Terisi Otomatis Dari Peta" readonly required>
+                
+                <!-- Input Berkas Foto (Memicu Pilihan Kamera/Galeri) -->
+                <div class="file-input-wrapper">
+                    <label for="custPhoto" id="photoLabel" class="file-label">📸 Pilih Foto (Kamera / Galeri)</label>
+                    <input type="file" id="custPhoto" accept="image/*" style="display:none;" onchange="handleFileSelect(this)">
+                </div>
 
-<div class="panel">
+                <select id="custPackage" required>
+                    <option value="" disabled selected>Pilih Paket</option>
+                    <option value="30 Mbps">30 Mbps</option>
+                    <option value="50 Mbps">50 Mbps</option>
+                    <option value="100 Mbps">100 Mbps</option>
+                </select>
+                <input type="date" id="custRegDate" required>
+            </div>
 
-<h2>📡 ISP SURVEY PRO</h2>
+            <!-- Bagian Peta Interaktif -->
+            <div id="map-container">
+                <div id="map"></div>
+                <div class="map-help">*Geser peta dan klik pada titik lokasi rumah pelanggan untuk mengambil koordinat secara akurat.</div>
+            </div>
 
-<input id="nama" placeholder="Nama">
-<input id="hp" placeholder="HP">
-<input id="alamat" placeholder="Alamat">
+            <div style="display: flex; gap: 10px;">
+                <button type="submit" class="btn-add">+ Tambah Pelanggan</button>
+                <button type="button" onclick="detectMyLocation()" style="background-color: #3498db; color: white;">📍 Cari Lokasi GPS Saya</button>
+            </div>
+        </form>
+    </div>
 
-<select id="status">
-<option>AKTIF</option>
-<option>GANGGUAN</option>
-<option>ISOLIR</option>
-</select>
+    <!-- FILTER PENCARIAN -->
+    <input type="text" id="searchInput" class="search-box" onkeyup="searchTable()" placeholder="Cari nama, no hp, alamat, atau status...">
 
-<input id="lat" placeholder="Latitude">
-<input id="lng" placeholder="Longitude">
-
-<button class="btn1" onclick="gps()">📍 GPS</button>
-<button class="btn2" onclick="saveData()">➕ Simpan</button>
-<button class="btn3" onclick="backup()">💾 Backup</button>
-<button class="btn4" onclick="resetAll()">🗑 Reset</button>
-
-<h3>🔎 Search</h3>
-<input id="search" onkeyup="renderList()">
-
-<h3>📋 Data</h3>
-<table>
-<tbody id="list"></tbody>
-</table>
-
+    <!-- TABEL DATA -->
+    <div class="table-responsive">
+        <table id="customerTable">
+            <thead>
+                <tr>
+                    <th>No. Pelanggan</th>
+                    <th>Nama</th>
+                    <th>No. HP</th>
+                    <th>Alamat</th>
+                    <th>Lokasi Maps</th>
+                    <th>Foto Rumah</th>
+                    <th>Paket</th>
+                    <th>Tgl Daftar</th>
+                    <th>Tgl Pasang</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Data otomatis terisi oleh JavaScript -->
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<div id="infoBox">📍 Siap Survey</div>
-
+<!-- Memuat Skrip Peta Leaflet -->
+<script src="https://unpkg.com"></script>
 <script>
+let currentBase64Image = "-";
+let map, marker;
 
-/* DATABASE */
-let data =
-JSON.parse(localStorage.getItem("isp_survey")) || [];
+// Titik tengah default awal peta (Jakarta Indonesia)
+const defaultLat = -6.2088;
+const defaultLng = 106.8456;
 
-/* MAP */
-let map = L.map('map').setView([-6.2,106.8], 10);
+// INISIALISASI PETA SAAT HALAMAN DIBUKA
+window.onload = function() {
+    initMap();
+    renderTable();
+};
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-    attribution:'© OSM'
-}).addTo(map);
+function initMap() {
+    // Membuat objek peta
+    map = L.map('map').setView([defaultLat, defaultLng], 13);
 
-let marker = null;
-
-/* INFO */
-function info(msg){
-    document.getElementById("infoBox").innerText = "📍 " + msg;
-}
-
-/* INIT MAP CLICK */
-map.on("click", e=>{
-    setPoint(e.latlng.lat,e.latlng.lng,"manual");
-});
-
-/* SET POINT */
-function setPoint(lat,lng,type){
-
-    document.getElementById("lat").value = lat.toFixed(6);
-    document.getElementById("lng").value = lng.toFixed(6);
-
-    if(marker){
-        map.removeLayer(marker);
-    }
-
-    marker = L.marker([lat,lng],{
-        draggable:true
+    // Memuat lapisan gambar peta jalan bebas (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    marker.on("dragend", ()=>{
-        let p = marker.getLatLng();
-        document.getElementById("lat").value = p.lat.toFixed(6);
-        document.getElementById("lng").value = p.lng.toFixed(6);
-        info("drag marker ✔");
+    // Membuat penanda (marker) yang bisa digeser-geser
+    marker = L.marker([defaultLat, defaultLng], { draggable: true }).addTo(map);
+
+    // Deteksi saat penanda selesai digeser oleh pengguna
+    marker.on('dragend', function (e) {
+        let position = marker.getLatLng();
+        updateCoordinateInput(position.lat, position.lng);
     });
 
-    map.setView([lat,lng],18);
-
-    info(type === "gps" ? "GPS lokasi" : "manual map ✔");
-}
-
-/* GPS */
-function gps(){
-
-    navigator.geolocation.getCurrentPosition(pos=>{
-
-        setPoint(pos.coords.latitude,pos.coords.longitude,"gps");
-
-    },()=>{
-
-        alert("GPS tidak akurat, gunakan klik map");
-
-    },{
-        enableHighAccuracy:true,
-        timeout:10000
+    // Deteksi saat pengguna mengeklik area tertentu pada peta
+    map.on('click', function (e) {
+        marker.setLatLng(e.latlng);
+        updateCoordinateInput(e.latlng.lat, e.latlng.lng);
     });
-
 }
 
-/* SAVE */
-function saveData(){
-
-    data.push({
-        nama:document.getElementById("nama").value,
-        hp:document.getElementById("hp").value,
-        alamat:document.getElementById("alamat").value,
-        status:document.getElementById("status").value,
-        lat:document.getElementById("lat").value,
-        lng:document.getElementById("lng").value
-    });
-
-    localStorage.setItem("isp_survey",JSON.stringify(data));
-
-    renderMap();
-    renderList();
-
-    info("data tersimpan ✔");
-
+function updateCoordinateInput(lat, lng) {
+    // Membulatkan 6 angka di belakang koma untuk akurasi koordinat map
+    const formattedCoord = lat.toFixed(6) + "," + lng.toFixed(6);
+    document.getElementById('custMaps').value = formattedCoord;
 }
 
-/* RENDER MAP */
-function renderMap(){
+// Fungsi otomatis melacak lokasi GPS fisik HP saat ini
+function detectMyLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            map.setView([lat, lng], 16);
+            marker.setLatLng([lat, lng]);
+            updateCoordinateInput(lat, lng);
+        }, function() {
+            alert("Gagal mengakses GPS. Pastikan izin lokasi browser Anda aktif.");
+        });
+    } else {
+        alert("Browser perangkat Anda tidak mendukung fitur pelacakan GPS.");
+    }
+}
 
-    data.forEach(p=>{
+// MENDETEKSI INPUT FOTO (KAMERA & GALERI)
+function handleFileSelect(input) {
+    const file = input.files[0];
+    if (file) {
+        // Menyimpan penamaan virtual folder gambar_lokasi/nama_file
+        const virtualPathName = "gambar_lokasi/" + file.name;
+        document.getElementById('photoLabel').innerText = "✅ " + virtualPathName;
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            currentBase64Image = e.target.result; 
+        };
+        reader.readAsDataURL(file);
+    }
+}
 
-        if(p.lat && p.lng){
+// MANAJEMEN PENYIMPANAN LOCAL STORAGE
+function getCustomersFromStorage() {
+    let customers = localStorage.getItem('isp_customers_v3');
+    return customers ? JSON.parse(customers) : [];
+}
 
-            L.marker([p.lat,p.lng])
-            .addTo(map)
-            .bindPopup(`
-                <b>${p.nama}</b><br>
-                ${p.alamat}<br>
-                ${p.status}<br><br>
-                <a target="_blank"
-                href="https://www.google.com/maps?q=${p.lat},${p.lng}">
-                🚗 Navigasi
-                </a>
-            `);
+function saveCustomersToStorage(data) {
+    localStorage.setItem('isp_customers_v3', JSON.stringify(data));
+}
 
+// MENAMPILKAN DATA PADA TABELsecara dinamis
+function renderTable() {
+    const customers = getCustomersFromStorage();
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = "";
+
+    customers.forEach((cust, index) => {
+        const row = document.createElement('tr');
+        
+        let badgeClass = 'badge-jadwal';
+        if (cust.status === 'Progres Pasang') badgeClass = 'badge-progres';
+        if (cust.status === 'Aktif') badgeClass = 'badge-aktif';
+
+        let actionBtn = '-';
+        if (cust.status === 'Menunggu Jadwal') {
+            actionBtn = `<button class="btn-action" onclick="changeStatus(${index}, 'Progres Pasang')">Proses Pasang</button>`;
+        } else if (cust.status === 'Progres Pasang') {
+            actionBtn = `<button class="btn-action" style="background-color:#2ecc71" onclick="changeStatus(${index}, 'Aktif')">Aktifkan</button>`;
         }
 
-    });
-
-}
-
-/* LIST */
-function renderList(){
-
-    let q = document.getElementById("search").value.toLowerCase();
-
-    let html = "";
-
-    data.forEach((p,i)=>{
-
-        if(p.nama.toLowerCase().includes(q)){
-
-            html += `
-            <tr>
-                <td>${p.nama}</td>
-                <td>
-                    <span class="badge ${
-                        p.status==="AKTIF"?"green":
-                        p.status==="GANGGUAN"?"yellow":"red"
-                    }">${p.status}</span>
-                </td>
-            </tr>
-            `;
-
+        let photoCell = '-';
+        if (cust.photo && cust.photo !== "-") {
+            photoCell = `<img src="${cust.photo}" class="img-preview" onclick="viewImage('${cust.photo}')" title="Klik untuk perbesar">`;
         }
 
+        // Tautan Google Maps diperbaiki total menggunakan parameter koordinat resmi agar tidak eror
+        const correctMapsUrl = `https://google.com{cust.maps}`;
+
+        row.innerHTML = `
+            <td>${cust.no}</td>
+            <td>${cust.name}</td>
+            <td><a href="https://wa.me{cust.phone.replace(/[^0-9]/g, '')}" target="_blank" class="btn-link">${cust.phone}</a></td>
+            <td>${cust.address}</td>
+            <td><a href="${correctMapsUrl}" target="_blank" class="btn-link">🗺️ Buka Lokasi</a></td>
+            <td>${photoCell}</td>
+            <td>${cust.package}</td>
+            <td>${cust.regDate}</td>
+            <td>${cust.installDate}</td>
+            <td><span class="badge ${badgeClass}">${cust.status}</span></td>
+            <td>
+                ${actionBtn}
+                <button class="btn-danger" onclick="deleteCustomer(${index})">Hapus</button>
+            </td>
+        `;
+        tbody.appendChild(row);
     });
-
-    document.getElementById("list").innerHTML = html;
-
 }
 
-/* BACKUP */
-function backup(){
+// MENAMBAH DATA BARU KE TABEL & STRORAGE
+function addCustomer(event) {
+    event.preventDefault();
+    let customers = getCustomersFromStorage();
 
-    let blob = new Blob(
-        [JSON.stringify(data,null,2)],
-        {type:"application/json"}
-    );
+    const newCustomer = {
+        no: document.getElementById("custNo").value,
+        name: document.getElementById("custName").value,
+        phone: document.getElementById("custPhone").value,
+        address: document.getElementById("custAddress").value,
+        maps: document.getElementById("custMaps").value,
+        photo: currentBase64Image,
+        package: document.getElementById("custPackage").value,
+        regDate: document.getElementById("custRegDate").value,
+        installDate: "-",
+        status: "Menunggu Jadwal"
+    };
 
-    let a = document.createElement("a");
+    customers.push(newCustomer);
+    saveCustomersToStorage(customers); 
+    renderTable();
 
-    a.href = URL.createObjectURL(blob);
-    a.download = "isp-survey-backup.json";
-    a.click();
-
+    // Mereset formulir inputan data
+    document.getElementById("customerForm").reset();
+    document.getElementById('photoLabel').innerText = "📸 Pilih Foto (Kamera / Galeri)";
+    currentBase64Image = "-";
+    
+    // Kembalikan posisi marker ke semula
+    map.setView([defaultLat, defaultLng], 13);
+    marker.setLatLng([defaultLat, defaultLng]);
 }
 
-/* RESET */
-function resetAll(){
+// MENGUBAH ALUR STATUS PELANGGAN
+function changeStatus(index, newStatus) {
+    let customers = getCustomersFromStorage();
+    customers[index].status = newStatus;
 
-    if(confirm("Hapus semua data?")){
-
-        data = [];
-        localStorage.removeItem("isp_survey");
-
-        renderMap();
-        renderList();
-
+    if (newStatus === 'Aktif') {
+        const today = new Date().toISOString().split('T')[0];
+        customers[index].installDate = today; 
     }
 
+    saveCustomersToStorage(customers); 
+    renderTable();
 }
 
-/* INIT */
-renderMap();
-renderList();
+// MENGHAPUS PELANGGAN
+function deleteCustomer(index) {
+    if (confirm("Apakah Anda yakin ingin menghapus data pelanggan ini secara permanen?")) {
+        let customers = getCustomersFromStorage();
+        customers.splice(index, 1);
+        saveCustomersToStorage(customers); 
+        renderTable();
+    }
+}
 
+// LIVE SEARCH FILTER DATA
+function searchTable() {
+    var input = document.getElementById("searchInput").value.toUpperCase();
+    var rows = document.getElementById("customerTable").getElementsByTagName("tr");
+
+    for (var i = 1; i < rows.length; i++) {
+        var show = false;
+        var cells = rows[i].getElementsByTagName("td");
+        for (var j = 0; j < cells.length; j++) {
+            if (cells[j] && cells[j].innerText.toUpperCase().indexOf(input) > -1) {
+                show = true;
+                break;
+            }
+        }
+        rows[i].style.display = show ? "" : "none";
+    }
+}
+
+// MEMBUKA PREVIEW JENDELA FOTO UKURAN PENUH
+function viewImage(base64Data) {
+    const w = window.open();
+    w.document.write(`<title>Foto Rumah Pelanggan</title><body style="margin:0; background:#000; display:flex; justify-content:center; align-items:center; height:100vh;"><img src="${base64Data}" style="max-width:100%; max-height:100%; object-fit:contain;"></body>`);
+}
 </script>
 
 </body>
